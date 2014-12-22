@@ -26,18 +26,19 @@ my %WriteMakefileArgs = (
   "NAME" => "Cwd::utf8",
   "PREREQ_PM" => {
     "Carp" => 0,
-    "Cwd" => 0,
+    "Cwd" => "3.30",
     "Encode" => 0,
     "strict" => 0,
     "warnings" => 0
   },
   "TEST_REQUIRES" => {
+    "Cwd" => "3.30",
     "File::Spec" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
     "Test::More" => "0.96"
   },
-  "VERSION" => "0.001",
+  "VERSION" => "0.002",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -46,7 +47,7 @@ my %WriteMakefileArgs = (
 
 my %FallbackPrereqs = (
   "Carp" => 0,
-  "Cwd" => 0,
+  "Cwd" => "3.30",
   "Encode" => 0,
   "ExtUtils::MakeMaker" => 0,
   "File::Spec" => 0,
