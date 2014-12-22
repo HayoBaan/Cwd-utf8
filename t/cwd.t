@@ -8,8 +8,8 @@ use Encode qw(decode FB_CROAK);
 my $test_root     = "test_files";
 my $unicode_dir   = "\x{30c6}\x{30b9}\x{30c8}\x{30c6}\x{3099}\x{30a3}\x{30ec}\x{30af}\x{30c8}\x{30ea}";
 
-if ($^O eq 'Win32' or $^O eq 'dos' or $^O eq 'os2') {
-    plan skip_all => "Ignored: $^O does not have proper utf-8 file system";
+if ($^O eq 'dos' or $^O eq 'os2') {
+    plan skip_all => "Skipped: $^O does not have proper utf-8 file system support";
 } else {
     # Create test files
     mkdir $test_root
@@ -29,7 +29,7 @@ subtest utf8cwd => sub {
     my $currentdir = getcwd();
 
     chdir("$test_root/$unicode_dir") or die "Couldn't chdir to $test_root/$unicode_dir: $!";
-    use Cwd;
+    use Cwd 3.30;
     my @cwdirs = (getcwd(), cwd(), fastcwd(), fastgetcwd());
 
     my @utf8_cwdirs;
@@ -49,7 +49,7 @@ subtest utf8cwd => sub {
 subtest utf8abs_path => sub {
     plan tests => 9;
 
-    use Cwd;
+    use Cwd 3.30;
     my @abs = (Cwd::abs_path("$test_root/$unicode_dir"), Cwd::realpath("$test_root/$unicode_dir"), Cwd::fast_abs_path("$test_root/$unicode_dir"));
 
     my @utf8_abs;
