@@ -20,14 +20,14 @@ my %module_build_args = (
     "Hayo Baan <info\@hayobaan.nl>"
   ],
   "dist_name" => "Cwd-utf8",
-  "dist_version" => "0.002",
+  "dist_version" => "0.003",
   "license" => "perl",
   "module_name" => "Cwd::utf8",
   "recommends" => {},
   "recursive_test_files" => 1,
   "requires" => {
     "Carp" => 0,
-    "Cwd" => "3.30",
+    "Cwd" => 0,
     "Encode" => 0,
     "perl" => "5.010",
     "strict" => 0,
@@ -35,7 +35,6 @@ my %module_build_args = (
   },
   "script_files" => [],
   "test_requires" => {
-    "Cwd" => "3.30",
     "File::Spec" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
@@ -46,7 +45,6 @@ my %module_build_args = (
 
 
 my %fallback_build_requires = (
-  "Cwd" => "3.30",
   "File::Spec" => 0,
   "IO::Handle" => 0,
   "IPC::Open3" => 0,

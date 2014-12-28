@@ -2,12 +2,14 @@ Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
 
-0.002     2014-12-22
+0.003     2014-12-28
+  - Added test for fast_realpath
+  - Corrected determination of target
 
+0.002     2014-12-22
   - Allowing Win32 platform
-  - Require Cwd v3.30 for testing (fixes bug in abs_path causing test to fail)
+  - Require Cwd v3.30 for testing (hopefully fixes bug in abs_path causing test to fail)
 
 0.001     2014-12-21
-
   - Initial release
 
