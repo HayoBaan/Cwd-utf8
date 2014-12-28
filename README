@@ -4,7 +4,7 @@ NAME
 
 VERSION
 
-    version 0.002
+    version 0.003
 
 SYNOPSIS
 
@@ -41,6 +41,14 @@ DESCRIPTION
     to prevent this, use use Cwd::utf8 qw(:none). (As all the magic happens
     in the module's import function, you can not simply use use Cwd::utf8
     qw())
+
+BUGS
+
+    Please report any bugs or feature requests on the bugtracker website
+    https://github.com/HayoBaan/Cwd-utf8/issues
+
+    When submitting a bug or request, please include a test-file or a patch
+    to an existing test-file that illustrates the bug or desired feature.
 
 SEE ALSO
 
