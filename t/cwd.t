@@ -5,7 +5,7 @@ use Test::More 0.96;
 use Encode qw(decode FB_CROAK);
 
 # Test files
-my $test_root     = "test_files";
+my $test_root     = "test_data";
 my $unicode_dir   = "\x{30c6}\x{30b9}\x{30c8}\x{30c6}\x{3099}\x{30a3}\x{30ec}\x{30af}\x{30c8}\x{30ea}";
 
 if ($^O eq 'dos' or $^O eq 'os2') {
