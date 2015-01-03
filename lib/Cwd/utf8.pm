@@ -22,7 +22,6 @@ my $file;
     # Exporting no functions
     use Cwd::utf8 qw(:none); # NOT "use Cwd::utf8 qw();"!
     my $real_path = Cwd::real_path($file);
-   
 
 =head1 DESCRIPTION
 
