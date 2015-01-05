@@ -47,13 +47,21 @@ want to prevent this, use C<use Cwd::utf8 qw(:none)>. (As all the
 magic happens in the module's import function, you can not simply use
 C<use Cwd::utf8 qw()>)
 
+=head1 COMPATIBILITY
+
+The filesystems of Dos, Windows, and OS/2 do not (fully) support
+UTF-8. The L<Cwd> function will therefore not be replaced on these
+systems.
 
 =head1 SEE ALSO
 
 =for :list
-* L<Cwd>
-* L<File::Find::utf8>
-* L<utf8::all>
+* L<Cwd> -- The original module
+* L<File::Find::utf8> -- Fully utf-8 aware versions of the L<File::Find>
+  functions.
+* L<utf8::all> -- Turn on utf-8, all of it.
+  This was also the module I first added the utf-8 aware versions of
+  L<Cwd> and L<File::Find> to before moving them to their own package.
 
 =cut
 
@@ -81,9 +89,9 @@ sub import {
     no strict qw(refs); ## no critic (TestingAndDebugging::ProhibitNoStrict)
     no warnings qw(redefine);
 
-    # If run on the DOS or OS/2 platform, ignore overriding functions silently.
-    # These platforms do not (properly) suppport utf-8 filenames...
-    unless ($^O eq 'dos' or $^O eq 'os2') {
+    # If run on the dos/os2/windows platform, ignore overriding functions silently.
+    # These platforms do have (proper) utf-8 file system suppport...
+    unless ($^O =~ /MSWin32|cygwin|dos|os2/) {
         no strict qw(refs); ## no critic (TestingAndDebugging::ProhibitNoStrict)
         no warnings qw(redefine);
 
@@ -119,14 +127,18 @@ sub import {
             *{$target_package . '::' . $f} = \&{$original_package . '::' . $f};
         }
     }
+
+    return;
 }
 
 sub unimport {
     # If run on the dos/os2/windows platform, ignore overriding functions silently.
-    # These platforms do not (properly) suppport utf-8 filenames...
-    unless ($^O eq 'Win32' or $^O eq 'dos' or $^O eq 'os2') {
+    # These platforms do have (proper) utf-8 file system suppport...
+    unless ($^O =~ /MSWin32|cygwin|dos|os2/) {
         $^H{$current_package} = 0; # Set compiler hint that we should not use the utf-8 version
     }
+
+    return;
 }
 
 sub _utf8_cwd {
