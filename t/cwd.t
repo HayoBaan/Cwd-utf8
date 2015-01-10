@@ -21,6 +21,12 @@ mkdir "$test_root/$unicode_dir"
     or die "Unable to create directory $test_root/$unicode_dir: $!"
     unless -d "$test_root/$unicode_dir";
 
+# Cleanup temporarily created files and directories
+END {
+    use File::Path qw(remove_tree);
+    remove_tree($test_root) or die "Unable to remove $test_root";
+}
+
 # Check utf8 and non-utf8 results
 sub check_dirs {
     my ($test, $utf8, $non_utf8) = @_;
@@ -96,7 +102,3 @@ for my $test (qw(abs_path realpath fast_abs_path fast_realpath)) {
         check_dirs($test, $utf8, $non_utf8);
     }
 }
-
-# Cleanup temporarily created files and directories
-use File::Path qw(remove_tree);
-remove_tree($test_root) or die "Unable to remove $test_root";
