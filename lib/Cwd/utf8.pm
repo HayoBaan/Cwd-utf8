@@ -32,7 +32,7 @@ characters.
 This module replaces all the L<Cwd> functions with fully UTF-8 aware
 versions, both expecting and returning characters.
 
-B<Note:> Replacement of functions is not done on DOS and OS/2
+B<Note:> Replacement of functions is not done on DOS, Windows, and OS/2
 as these systems do not have full UTF-8 file system support.
 
 =head2 Behaviour
@@ -68,35 +68,31 @@ systems.
 use Cwd qw();
 use Encode;
 
-my @EXPORT = qw(cwd getcwd fastcwd fastgetcwd);
-push @EXPORT, qw(getdcwd) if $^O eq 'MSWin32';
-my @EXPORT_OK = qw(chdir abs_path fast_abs_path realpath fast_realpath);
-
 # Holds the pointers to the original version of redefined functions
 state %_orig_functions;
 
-# Current package
+# Current (i.e., this) package
 my $current_package = __PACKAGE__;
 
 # Original package (i.e., the one for which this module is replacing the functions)
 my $original_package = $current_package;
 $original_package =~ s/::utf8$//;
 
+require Carp;
+$Carp::Internal{$current_package}++; # To get warnings reported at correct caller level
+
 sub import {
     # Target package (i.e., the one loading this module)
     my $target_package = caller;
 
-    no strict qw(refs); ## no critic (TestingAndDebugging::ProhibitNoStrict)
-    no warnings qw(redefine);
-
     # If run on the dos/os2/windows platform, ignore overriding functions silently.
-    # These platforms do have (proper) utf-8 file system suppport...
+    # These platforms do not have (proper) utf-8 file system suppport...
     unless ($^O =~ /MSWin32|cygwin|dos|os2/) {
         no strict qw(refs); ## no critic (TestingAndDebugging::ProhibitNoStrict)
         no warnings qw(redefine);
 
         # Redefine each of the functions to their UTF-8 equivalent
-        for my $f (@EXPORT, @EXPORT_OK) {
+        for my $f (@{$original_package . '::EXPORT'}, @{$original_package . '::EXPORT_OK'}) {
             # If we already have the _orig_function, we have redefined the function
             # in an earlier load of this module, so we need not do it again
             unless ($_orig_functions{$f}) {
@@ -107,37 +103,20 @@ sub import {
         $^H{$current_package} = 1; # Set compiler hint that we should use the utf-8 version
     }
 
-    if ($#_) {
-        # Check arguments
-        my @invalid_exports;
-        for my $f (@_[1..$#_]) {
-            if (! grep /^$f$/, (':none', @EXPORT, @EXPORT_OK)) {
-                push @invalid_exports, "$f is not exported by $current_package module";
-            }
-        }
-        if (@invalid_exports) {
-            require Carp;
-            Carp::croak(join("\n", @invalid_exports)  . "\nCan't continue after import errors");
-        }
-    }
+    # Determine symbols to export
+    shift; # First argument contains the package (that's us)
+    @_ = (':DEFAULT') if !@_; # If nothing provided, use default
+    @_ = map { $_ eq ':none' ? () : $_ } @_; # Replace :none tag with empty list
 
-    # Export functions to target package
-    unless ($#_ && grep /^:none$/, @_[1..$#_]) {
-        for my $f ($#_ ? @_[1..$#_] : @EXPORT) {
-            *{$target_package . '::' . $f} = \&{$original_package . '::' . $f};
-        }
-    }
+    # Use exporter to export
+    require Exporter;
+    Exporter::export_to_level($original_package, 1, $target_package, @_) if (@_);
 
     return;
 }
 
-sub unimport {
-    # If run on the dos/os2/windows platform, ignore overriding functions silently.
-    # These platforms do have (proper) utf-8 file system suppport...
-    unless ($^O =~ /MSWin32|cygwin|dos|os2/) {
-        $^H{$current_package} = 0; # Set compiler hint that we should not use the utf-8 version
-    }
-
+sub unimport { ## no critic (Subroutines::ProhibitBuiltinHomonyms)
+    $^H{$current_package} = 0; # Set compiler hint that we should not use the utf-8 version
     return;
 }
 
