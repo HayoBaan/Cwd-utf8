@@ -20,7 +20,7 @@ my %module_build_args = (
     "Hayo Baan <info\@hayobaan.nl>"
   ],
   "dist_name" => "Cwd-utf8",
-  "dist_version" => "0.004",
+  "dist_version" => "0.005",
   "license" => "perl",
   "module_name" => "Cwd::utf8",
   "recommends" => {},
@@ -29,6 +29,7 @@ my %module_build_args = (
     "Carp" => 0,
     "Cwd" => 0,
     "Encode" => 0,
+    "Exporter" => 0,
     "perl" => "5.010",
     "strict" => 0,
     "warnings" => 0
@@ -39,7 +40,9 @@ my %module_build_args = (
     "File::Spec" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
+    "Test::Exception" => 0,
     "Test::More" => "0.96",
+    "Test::Warn" => 0,
     "open" => 0,
     "perl" => "5.010"
   }
@@ -52,7 +55,9 @@ my %fallback_build_requires = (
   "IO::Handle" => 0,
   "IPC::Open3" => 0,
   "Module::Build" => "0.28",
+  "Test::Exception" => 0,
   "Test::More" => "0.96",
+  "Test::Warn" => 0,
   "open" => 0,
   "perl" => "5.010"
 );
