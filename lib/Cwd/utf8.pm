@@ -65,8 +65,8 @@ systems.
 
 =cut
 
-use Cwd qw();
-use Encode;
+use Cwd ();
+use Encode ();
 
 # Holds the pointers to the original version of redefined functions
 state %_orig_functions;
@@ -80,6 +80,22 @@ $original_package =~ s/::utf8$//;
 
 require Carp;
 $Carp::Internal{$current_package}++; # To get warnings reported at correct caller level
+
+=attr $File::Find::utf8::UTF8_CHECK
+
+By default C<Cwd:::utf8> marks decoding errors as fatal (default value
+for this setting is C<Encode::FB_CROAK>). If you want, you can change this by
+setting C<Cwd::utf8::UTF8_CHECK>. The value C<Encode::FB_WARN> reports
+the encoding errors as warnings, and C<Encode::FB_DEFAULT> will completely
+ignore them. Please see L<Encode> for details. Note: C<Encode::LEAVE_SRC> is
+I<always> enforced.
+
+=cut
+
+our $UTF8_CHECK = Encode::FB_CROAK; # Die on encoding errors
+
+# UTF-8 Encoding object
+my $_UTF8 = Encode::find_encoding('UTF-8');
 
 sub import {
     # Target package (i.e., the one loading this module)
@@ -122,14 +138,22 @@ sub unimport { ## no critic (Subroutines::ProhibitBuiltinHomonyms)
 
 sub _utf8_cwd {
     my $func = shift;
+
+    # Enforce LEAVE_SRC
+    $UTF8_CHECK |= Encode::LEAVE_SRC if $UTF8_CHECK;
+
     my $hints = (caller 1)[10]; # Use caller level 1 because of the added anonymous sub around call
     if (! $hints->{$current_package}) {
         # Use original function if we're not using Cwd::utf8 in calling package
         return $_orig_functions{$func}->(@_);
-    } elsif (wantarray) {
-        return map { decode('UTF-8' ,$_) } $_orig_functions{$func}->(map { encode('UTF-8', $_) } @_);
     } else {
-        return decode('UTF-8', $_orig_functions{$func}->(map { encode('UTF-8', $_) } @_));
+        my @args = map { $_ ? $_UTF8->encode($_, $UTF8_CHECK) : $_ } @_;
+        if (wantarray) {
+            return map { $_ ? $_UTF8->decode($_, $UTF8_CHECK) : $_ } $_orig_functions{$func}->(@args);
+        } else {
+            my $r = $_orig_functions{$func}->(@args);
+            return $r ? $_UTF8->decode($r, $UTF8_CHECK) : $r;
+        }
     }
 }
 
