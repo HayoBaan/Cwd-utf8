@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use Test::More 0.96;
-use Encode qw(encode decode FB_CROAK);
+use Encode qw(encode_utf8 decode_utf8 FB_CROAK LEAVE_SRC);
 
 # Enable utf-8 encoding so we do not get Wide character in print
 # warnings when reporting test failures
@@ -30,8 +30,8 @@ END {
 # Check utf8 and non-utf8 results
 sub check_dirs {
     my ($test, $utf8, $non_utf8) = @_;
-    my $utf8_encoded     = encode('UTF-8', "$utf8", FB_CROAK);     # Quotes to prevent tampering by encode/decode!
-    my $non_utf8_decoded = decode('UTF-8', "$non_utf8", FB_CROAK); # Quotes to prevent tampering by encode/decode!
+    my $utf8_encoded     = encode_utf8($utf8);
+    my $non_utf8_decoded = decode_utf8($non_utf8, FB_CROAK | LEAVE_SRC);
 
     plan tests => 3;
 
