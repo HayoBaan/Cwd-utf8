@@ -8,12 +8,13 @@ use Encode qw(encode_utf8 decode_utf8 FB_CROAK LEAVE_SRC);
 # warnings when reporting test failures
 use open qw{:encoding(UTF-8) :std};
 
+my $test_root     = "corpus.tmp";
+my $unicode_dir   = "\x{30c6}\x{30b9}\x{30c8}\x{30c6}\x{3099}\x{30a3}\x{30ec}\x{30af}\x{30c8}\x{30ea}";
+
 plan skip_all => "Skipped: $^O does not have proper utf-8 file system support"
     if ($^O =~ /MSWin32|cygwin|dos|os2/);
 
 # Create test files
-my $test_root     = "corpus.tmp";
-my $unicode_dir   = "\x{30c6}\x{30b9}\x{30c8}\x{30c6}\x{3099}\x{30a3}\x{30ec}\x{30af}\x{30c8}\x{30ea}";
 mkdir $test_root
     or die "Unable to create directory $test_root: $!"
     unless -d $test_root;
@@ -24,7 +25,7 @@ mkdir "$test_root/$unicode_dir"
 # Cleanup temporarily created files and directories
 END {
     use File::Path qw(remove_tree);
-    remove_tree($test_root) or die "Unable to remove $test_root";
+    remove_tree($test_root) or die "Unable to remove $test_root" if -d $test_root;
 }
 
 # Check utf8 and non-utf8 results
