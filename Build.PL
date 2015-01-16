@@ -20,7 +20,7 @@ my %module_build_args = (
     "Hayo Baan <info\@hayobaan.nl>"
   ],
   "dist_name" => "Cwd-utf8",
-  "dist_version" => "0.006",
+  "dist_version" => "0.007",
   "license" => "perl",
   "module_name" => "Cwd::utf8",
   "recommends" => {},
