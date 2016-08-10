@@ -2,6 +2,14 @@ Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
 
+0.008     2016-08-10
+  * Amendments for Test::Synopsis > v0.13
+  * Removed Build.PL, require >= v0.009 of PluginBundle
+  * Updated author e-mail address
+  * Corrected documentation
+  * Corrected minimum version requirement
+  * Corrected typo in MANIFEST.SKIP
+
 0.007     2015-01-16
   * Corrected END for cwd.t
 

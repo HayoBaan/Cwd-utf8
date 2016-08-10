@@ -4,21 +4,9 @@ Cwd::utf8 - Fully UTF-8 aware Cwd
 
 # VERSION
 
-version 0.007
+version 0.008
 
 # SYNOPSIS
-
-    # Using the utf-8 versions of cwd, getcwd, fastcwd, fastgetcwd
-    use Cwd::utf8;
-    my $dir = getcwd;
-
-    # Using the utf-8 versions of abs_path
-    use Cwd::utf8 qw(abs_path);
-    my $abs_path = abs_path($file);
-
-    # Exporting no functions
-    use Cwd::utf8 qw(:none); # NOT "use Cwd::utf8 qw();"!
-    my $real_path = Cwd::real_path($file);
 
 # DESCRIPTION
 
@@ -46,7 +34,7 @@ magic happens in the module's import function, you can not simply use
 
 # ATTRIBUTES
 
-## $File::Find::utf8::UTF8\_CHECK
+## $Cwd::utf8::UTF8\_CHECK
 
 By default `Cwd:::utf8` marks decoding errors as fatal (default value
 for this setting is `Encode::FB_CROAK`). If you want, you can change this by
@@ -55,10 +43,22 @@ the encoding errors as warnings, and `Encode::FB_DEFAULT` will completely
 ignore them. Please see [Encode](https://metacpan.org/pod/Encode) for details. Note: `Encode::LEAVE_SRC` is
 _always_ enforced.
 
+    # Using the utf-8 versions of cwd, getcwd, fastcwd, fastgetcwd
+    use Cwd::utf8;
+    my $dir = getcwd;
+
+    # Using the utf-8 versions of abs_path
+    use Cwd::utf8 qw(abs_path);
+    my $abs_path = abs_path($file);
+
+    # Exporting no functions
+    use Cwd::utf8 qw(:none); # NOT "use Cwd::utf8 qw();"!
+    my $real_path = Cwd::real_path($file);
+
 # BUGS
 
-Please report any bugs or feature requests on the bugtracker website
-https://github.com/HayoBaan/Cwd-utf8/issues
+Please report any bugs or feature requests on the bugtracker
+[website](https://github.com/HayoBaan/Cwd-utf8/issues).
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired
@@ -78,7 +78,7 @@ systems.
 
 # AUTHOR
 
-Hayo Baan <info@hayobaan.nl>
+Hayo Baan <hayobaan@cpan.org>
 
 # COPYRIGHT AND LICENSE
 
