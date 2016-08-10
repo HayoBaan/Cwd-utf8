@@ -6,10 +6,10 @@ use 5.010; # state
 # ABSTRACT: Fully UTF-8 aware Cwd
 # VERSION
 
+=head1 SYNOPSIS
+
 =for test_synopsis
 my $file;
-
-=head1 SYNOPSIS
 
     # Using the utf-8 versions of cwd, getcwd, fastcwd, fastgetcwd
     use Cwd::utf8;
@@ -81,7 +81,7 @@ $original_package =~ s/::utf8$//;
 require Carp;
 $Carp::Internal{$current_package}++; # To get warnings reported at correct caller level
 
-=attr $File::Find::utf8::UTF8_CHECK
+=attr $Cwd::utf8::UTF8_CHECK
 
 By default C<Cwd:::utf8> marks decoding errors as fatal (default value
 for this setting is C<Encode::FB_CROAK>). If you want, you can change this by
