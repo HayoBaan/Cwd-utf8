@@ -14,6 +14,7 @@ plan tests => 3;
 
 use Encode ();
 use Cwd::utf8 qw(abs_path);
+no warnings FATAL => 'utf8'; # disable fatal utf8 warnings
 
 # Argument to abs_path with an illegal Unicode character
 my $abs_path_arg = "Illegal \x{d800} character";
