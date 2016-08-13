@@ -92,7 +92,7 @@ I<always> enforced.
 
 =cut
 
-our $UTF8_CHECK = Encode::FB_CROAK; # Die on encoding errors
+our $UTF8_CHECK = Encode::FB_CROAK | Encode::LEAVE_SRC; # Die on encoding errors
 
 # UTF-8 Encoding object
 my $_UTF8 = Encode::find_encoding('UTF-8');
@@ -139,14 +139,12 @@ sub unimport { ## no critic (Subroutines::ProhibitBuiltinHomonyms)
 sub _utf8_cwd {
     my $func = shift;
 
-    # Enforce LEAVE_SRC
-    $UTF8_CHECK |= Encode::LEAVE_SRC if $UTF8_CHECK;
-
     my $hints = (caller 1)[10]; # Use caller level 1 because of the added anonymous sub around call
     if (! $hints->{$current_package}) {
         # Use original function if we're not using Cwd::utf8 in calling package
         return $_orig_functions{$func}->(@_);
     } else {
+        $UTF8_CHECK |= Encode::LEAVE_SRC if $UTF8_CHECK; # Enforce LEAVE_SRC
         my @args = map { $_ ? $_UTF8->encode($_, $UTF8_CHECK) : $_ } @_;
         if (wantarray) {
             return map { $_ ? $_UTF8->decode($_, $UTF8_CHECK) : $_ } $_orig_functions{$func}->(@args);
