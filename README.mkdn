@@ -4,9 +4,21 @@ Cwd::utf8 - Fully UTF-8 aware Cwd
 
 # VERSION
 
-version 0.008
+version 0.009
 
 # SYNOPSIS
+
+    # Using the utf-8 versions of cwd, getcwd, fastcwd, fastgetcwd
+    use Cwd::utf8;
+    my $dir = getcwd;
+
+    # Using the utf-8 versions of abs_path
+    use Cwd::utf8 qw(abs_path);
+    my $abs_path = abs_path($file);
+
+    # Exporting no functions
+    use Cwd::utf8 qw(:none); # NOT "use Cwd::utf8 qw();"!
+    my $real_path = Cwd::real_path($file);
 
 # DESCRIPTION
 
@@ -43,18 +55,6 @@ the encoding errors as warnings, and `Encode::FB_DEFAULT` will completely
 ignore them. Please see [Encode](https://metacpan.org/pod/Encode) for details. Note: `Encode::LEAVE_SRC` is
 _always_ enforced.
 
-    # Using the utf-8 versions of cwd, getcwd, fastcwd, fastgetcwd
-    use Cwd::utf8;
-    my $dir = getcwd;
-
-    # Using the utf-8 versions of abs_path
-    use Cwd::utf8 qw(abs_path);
-    my $abs_path = abs_path($file);
-
-    # Exporting no functions
-    use Cwd::utf8 qw(:none); # NOT "use Cwd::utf8 qw();"!
-    my $real_path = Cwd::real_path($file);
-
 # BUGS
 
 Please report any bugs or feature requests on the bugtracker
@@ -78,7 +78,7 @@ systems.
 
 # AUTHOR
 
-Hayo Baan <hayobaan@cpan.org>
+Hayo Baan <info@hayobaan.com>
 
 # COPYRIGHT AND LICENSE
 
