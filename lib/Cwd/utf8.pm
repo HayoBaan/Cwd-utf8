@@ -6,10 +6,14 @@ use 5.010; # state
 # ABSTRACT: Fully UTF-8 aware Cwd
 # VERSION
 
-=head1 SYNOPSIS
+=begin :prelude
 
 =for test_synopsis
 my $file;
+
+=end :prelude
+
+=head1 SYNOPSIS
 
     # Using the utf-8 versions of cwd, getcwd, fastcwd, fastgetcwd
     use Cwd::utf8;

@@ -1,6 +1,10 @@
 Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
+  * Fixed misplaced SYNOPSIS
+  * Only updating $UTF8_CHECK when necessary
+  * Added Travis and AppVeyor testing
+  * Prevent "UTF-16 surrogate 0xd800" error in some builds' tests
 
 0.008     2016-08-10
   * Amendments for Test::Synopsis > v0.13
