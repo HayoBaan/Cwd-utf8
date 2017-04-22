@@ -25,18 +25,18 @@ my $abs_path_arg = "Illegal \x{d800} character";
           {
               abs_path($abs_path_arg);
           }
-          qr/"\\x\{d800\}" does not map to utf8/,
+          qr/"\\x\{d800\}" does not map to (utf8|UTF-8)/,
           'croak on encoding error (default)';
 }
 
 # Warn on faulty utf-8
 {
     local $Cwd::utf8::UTF8_CHECK = Encode::FB_WARN;
-    Test::Warn::warning_is
+    Test::Warn::warning_like
           {
               abs_path($abs_path_arg);
           }
-          qq("\\x\{d800\}" does not map to utf8),
+          qr/"\\x\{d800\}" does not map to (utf8|UTF-8)/,
           'warn on encoding error';
 }
 
