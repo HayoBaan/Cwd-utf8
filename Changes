@@ -1,6 +1,7 @@
 Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
+  * Adpated to use gmake instead of dmake
 
 0.011     2017-05-18
   * Requiring File::Path 2.06_06 for remove_tree
