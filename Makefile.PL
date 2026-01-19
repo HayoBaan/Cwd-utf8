@@ -25,7 +25,7 @@ my %WriteMakefileArgs = (
     "warnings" => 0
   },
   "TEST_REQUIRES" => {
-    "File::Path" => "2.06_06",
+    "File::Temp" => "0.19",
     "File::Spec" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
