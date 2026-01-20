@@ -1,6 +1,8 @@
 Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
+
+0.014     2026-01-20
   * Use File::Temp for temporary directories [gh-2]
 
 0.013     2026-01-18
