@@ -6,7 +6,7 @@ Cwd::utf8 - Fully UTF-8 aware Cwd
 
 # VERSION
 
-version 0.014
+version 0.014\_001
 
 # SYNOPSIS
 
@@ -34,7 +34,7 @@ versions, both expecting and returning characters.
 **Note:** Replacement of functions is not done on DOS, Windows, and OS/2
 as these systems do not have full UTF-8 file system support.
 
-## Behaviour
+## Behavior
 
 The module behaves as a pragma so you can use both `use
 Cwd::utf8` and `no Cwd::utf8` to turn utf-8 support on

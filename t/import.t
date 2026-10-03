@@ -9,25 +9,25 @@ use Test::Exception tests => 6;
 
 # Correct handling of the :none tag
 {
-    package test_none;
+    package TestNone;
     use Cwd::utf8 qw(:none);
     Test::Exception::throws_ok
         {
             cwd();
         }
-        qr/Undefined subroutine &test_none::cwd called/,
+        qr/Undefined subroutine &TestNone::cwd called/,
         ':none correctly imported';
 }
 
 # Correct handling of !getcwd
 {
-    package test_notcwd;
+    package TestNotCwd;
     use Cwd::utf8 qw(!cwd);
     Test::Exception::throws_ok
           {
               cwd();
           }
-          qr/Undefined subroutine &test_notcwd::cwd called/,
+          qr/Undefined subroutine &TestNotCwd::cwd called/,
           'cwd correctly not imported with !cwd';
     Test::Exception::lives_ok
           {
@@ -38,7 +38,7 @@ use Test::Exception tests => 6;
 
 # Correct handling of /path/
 {
-    package test_re;
+    package TestRe;
     use Cwd::utf8 qw(/path/);
     Test::Exception::lives_ok
     {
@@ -52,13 +52,13 @@ use Test::Exception tests => 6;
     {
         cwd();
     }
-    qr/Undefined subroutine &test_re::cwd called/,
+    qr/Undefined subroutine &TestRe::cwd called/,
     'cwd correctly not imported with /path/';
 }
 
 # Correct handling of invalid symbol
 {
-    package test_invalid;
+    package TestInvalid;
     require Cwd::utf8;
     Test::Exception::throws_ok
           {
