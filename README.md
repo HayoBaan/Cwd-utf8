@@ -24,38 +24,33 @@ version 0.014\_001
 
 # DESCRIPTION
 
-While the original [Cwd](https://metacpan.org/pod/Cwd) functions are capable of handling UTF-8
-quite well, they expects and return all data as bytes, not as
-characters.
+While the original [Cwd](https://metacpan.org/pod/Cwd) functions are capable of handling UTF-8 quite well, they expects and
+return all data as bytes, not as characters.
 
-This module replaces all the [Cwd](https://metacpan.org/pod/Cwd) functions with fully UTF-8 aware
-versions, both expecting and returning characters.
+This module replaces all the [Cwd](https://metacpan.org/pod/Cwd) functions with fully UTF-8 aware versions, both expecting and
+returning characters.
 
-**Note:** Replacement of functions is not done on DOS, Windows, and OS/2
-as these systems do not have full UTF-8 file system support.
+**Note:** Replacement of functions is not done on DOS, Windows, and OS/2 as these systems do not have
+full UTF-8 file system support.
 
 ## Behavior
 
-The module behaves as a pragma so you can use both `use
-Cwd::utf8` and `no Cwd::utf8` to turn utf-8 support on
-or off.
+The module behaves as a pragma so you can use both `use Cwd::utf8` and `no Cwd::utf8` to turn
+utf-8 support on or off.
 
-By default, cwd(), getcwd(), fastcwd(), and fastgetcwd() (and, on
-Win32, getdcwd()) are exported (as with the original [Cwd](https://metacpan.org/pod/Cwd)). If you
-want to prevent this, use `use Cwd::utf8 qw(:none)`. (As all the
-magic happens in the module's import function, you can not simply use
-`use Cwd::utf8 qw()`)
+By default, cwd(), getcwd(), fastcwd(), and fastgetcwd() (and, on Win32, getdcwd()) are exported (as
+with the original [Cwd](https://metacpan.org/pod/Cwd)). If you want to prevent this, use `use Cwd::utf8 qw(:none)`. (As all the
+magic happens in the module's import function, you can not simply use `use Cwd::utf8 qw()`)
 
 # ATTRIBUTES
 
 ## $Cwd::utf8::UTF8\_CHECK
 
-By default `Cwd:::utf8` marks decoding errors as fatal (default value
-for this setting is `Encode::FB_CROAK`). If you want, you can change this by
-setting `Cwd::utf8::UTF8_CHECK`. The value `Encode::FB_WARN` reports
-the encoding errors as warnings, and `Encode::FB_DEFAULT` will completely
-ignore them. Please see [Encode](https://metacpan.org/pod/Encode) for details. Note: `Encode::LEAVE_SRC` is
-_always_ enforced.
+By default `Cwd:::utf8` marks decoding errors as fatal (default value for this setting is
+`Encode::FB_CROAK`). If you want, you can change this by setting `Cwd::utf8::UTF8_CHECK`. The
+value `Encode::FB_WARN` reports the encoding errors as warnings, and `Encode::FB_DEFAULT` will
+completely ignore them. Please see [Encode](https://metacpan.org/pod/Encode) for details. Note: `Encode::LEAVE_SRC` is _always_
+enforced.
 
 # BUGS
 
@@ -68,9 +63,8 @@ feature.
 
 # COMPATIBILITY
 
-The filesystems of Dos, Windows, and OS/2 do not (fully) support
-UTF-8. The [Cwd](https://metacpan.org/pod/Cwd) function will therefore not be replaced on these
-systems.
+The filesystems of Dos, Windows, and OS/2 do not (fully) support UTF-8. The [Cwd](https://metacpan.org/pod/Cwd) function will
+therefore not be replaced on these systems.
 
 # SEE ALSO
 

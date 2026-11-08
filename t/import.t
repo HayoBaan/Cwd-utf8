@@ -3,8 +3,7 @@ use strict;
 use warnings;
 use Test::Exception tests => 6;
 
-# Test the various import combinations.
-# Each test is performed in its own package to prevent one use
+# Test the various import combinations. Each test is performed in its own package to prevent one use
 # statement influencing the other.
 
 # Correct handling of the :none tag

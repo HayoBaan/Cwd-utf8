@@ -29,33 +29,28 @@ my $file;
 
 =head1 DESCRIPTION
 
-While the original L<Cwd> functions are capable of handling UTF-8
-quite well, they expects and return all data as bytes, not as
-characters.
+While the original L<Cwd> functions are capable of handling UTF-8 quite well, they expects and
+return all data as bytes, not as characters.
 
-This module replaces all the L<Cwd> functions with fully UTF-8 aware
-versions, both expecting and returning characters.
+This module replaces all the L<Cwd> functions with fully UTF-8 aware versions, both expecting and
+returning characters.
 
-B<Note:> Replacement of functions is not done on DOS, Windows, and OS/2
-as these systems do not have full UTF-8 file system support.
+B<Note:> Replacement of functions is not done on DOS, Windows, and OS/2 as these systems do not have
+full UTF-8 file system support.
 
 =head2 Behavior
 
-The module behaves as a pragma so you can use both C<use
-Cwd::utf8> and C<no Cwd::utf8> to turn utf-8 support on
-or off.
+The module behaves as a pragma so you can use both C<use Cwd::utf8> and C<no Cwd::utf8> to turn
+utf-8 support on or off.
 
-By default, cwd(), getcwd(), fastcwd(), and fastgetcwd() (and, on
-Win32, getdcwd()) are exported (as with the original L<Cwd>). If you
-want to prevent this, use C<use Cwd::utf8 qw(:none)>. (As all the
-magic happens in the module's import function, you can not simply use
-C<use Cwd::utf8 qw()>)
+By default, cwd(), getcwd(), fastcwd(), and fastgetcwd() (and, on Win32, getdcwd()) are exported (as
+with the original L<Cwd>). If you want to prevent this, use C<use Cwd::utf8 qw(:none)>. (As all the
+magic happens in the module's import function, you can not simply use C<use Cwd::utf8 qw()>)
 
 =head1 COMPATIBILITY
 
-The filesystems of Dos, Windows, and OS/2 do not (fully) support
-UTF-8. The L<Cwd> function will therefore not be replaced on these
-systems.
+The filesystems of Dos, Windows, and OS/2 do not (fully) support UTF-8. The L<Cwd> function will
+therefore not be replaced on these systems.
 
 =head1 SEE ALSO
 
@@ -87,12 +82,11 @@ $Carp::Internal{$current_package}++; # To get warnings reported at correct calle
 
 =attr $Cwd::utf8::UTF8_CHECK
 
-By default C<Cwd:::utf8> marks decoding errors as fatal (default value
-for this setting is C<Encode::FB_CROAK>). If you want, you can change this by
-setting C<Cwd::utf8::UTF8_CHECK>. The value C<Encode::FB_WARN> reports
-the encoding errors as warnings, and C<Encode::FB_DEFAULT> will completely
-ignore them. Please see L<Encode> for details. Note: C<Encode::LEAVE_SRC> is
-I<always> enforced.
+By default C<Cwd:::utf8> marks decoding errors as fatal (default value for this setting is
+C<Encode::FB_CROAK>). If you want, you can change this by setting C<Cwd::utf8::UTF8_CHECK>. The
+value C<Encode::FB_WARN> reports the encoding errors as warnings, and C<Encode::FB_DEFAULT> will
+completely ignore them. Please see L<Encode> for details. Note: C<Encode::LEAVE_SRC> is I<always>
+enforced.
 
 =cut
 
@@ -105,16 +99,16 @@ sub import {
     # Target package (i.e., the one loading this module)
     my $target_package = caller;
 
-    # If run on the dos/os2/windows platform, ignore overriding functions silently.
-    # These platforms do not have (proper) utf-8 file system suppport...
+    # If run on the dos/os2/windows platform, ignore overriding functions silently. These platforms
+    # do not have (proper) utf-8 file system suppport...
     unless ($^O =~ /MSWin32|cygwin|dos|os2/) {
         no strict qw(refs); ## no critic (TestingAndDebugging::ProhibitNoStrict)
         no warnings qw(redefine);
 
         # Redefine each of the functions to their UTF-8 equivalent
         for my $f (@{$original_package . '::EXPORT'}, @{$original_package . '::EXPORT_OK'}) {
-            # If we already have the _orig_function, we have redefined the function
-            # in an earlier load of this module, so we need not do it again
+            # If we already have the _orig_function, we have redefined the function in an earlier
+            # load of this module, so we need not do it again
             unless ($_orig_functions{$f}) {
                 $_orig_functions{$f} = \&{$original_package . '::' . $f};
                 *{$original_package . '::' . $f} = sub { return _utf8_cwd($f, @_); };

@@ -5,8 +5,8 @@ use Test::More 0.96;
 use Encode qw(encode_utf8 decode_utf8 FB_CROAK LEAVE_SRC);
 use File::Temp 0.19;
 
-# Enable utf-8 encoding so we do not get Wide character in print
-# warnings when reporting test failures
+# Enable utf-8 encoding so we do not get Wide character in print warnings when reporting test
+# failures
 use open qw{:encoding(UTF-8) :std};
 
 plan skip_all => "Skipped: $^O does not have proper utf-8 file system support"
